@@ -221,6 +221,129 @@
             }
         });
     </script>
+    <style>
+    .carousel {
+        position: relative;
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto 32px auto;
+        overflow: hidden;
+        border-radius: 12px;
+        background: #181818;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        transition: height 0.4s cubic-bezier(.77,0,.18,1);
+    }
+    .carousel-track {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        transition: none;
+    }
+    .carousel-img {
+        width: auto;
+        max-width: 100%;
+        height: auto;
+        max-height: 300px;
+        object-fit: contain;
+        display: none;
+        margin: 0 auto;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+        border-radius: 8px;
+        background: #222;
+    }
+    .carousel-img.active {
+        display: block;
+    }
+    .carousel-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0,0,0,0.4);
+        border: none;
+        color: #fff;
+        font-size: 2em;
+        padding: 0 12px;
+        cursor: pointer;
+        border-radius: 50%;
+        z-index: 2;
+        transition: background 0.2s;
+    }
+    .carousel-btn:hover {
+        background: rgba(255,166,0,0.7);
+    }
+    .carousel-btn.prev { left: 10px; }
+    .carousel-btn.next { right: 10px; }
+    .carousel-dots {
+        position: absolute;
+        bottom: 12px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 8px;
+    }
+    .dot {
+        width: 10px;
+        height: 10px;
+        background: #fff3;
+        border-radius: 50%;
+        display: inline-block;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .dot.active {
+        background: #ffa600;
+    }
+    @media (max-width: 700px) {
+        .carousel {
+            max-width: 98vw;
+        }
+        .carousel-img {
+            max-height: 180px;
+        }
+    }
+    </style>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const images = document.querySelectorAll('.carousel-img');
+        const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.querySelector('.carousel-btn.prev');
+        const nextBtn = document.querySelector('.carousel-btn.next');
+        const carousel = document.querySelector('.carousel');
+        let current = 0;
+        function setCarouselHeight(idx) {
+            const img = images[idx];
+            if (img && img.complete) {
+                carousel.style.height = img.offsetHeight + 'px';
+            } else if (img) {
+                img.onload = () => carousel.style.height = img.offsetHeight + 'px';
+            }
+        }
+        function showSlide(idx) {
+            images.forEach((img, i) => img.classList.toggle('active', i === idx));
+            dots.forEach((dot, i) => dot.classList.toggle('active', i === idx));
+            current = idx;
+            setCarouselHeight(idx);
+        }
+        prevBtn.addEventListener('click', () => {
+            showSlide((current - 1 + images.length) % images.length);
+        });
+        nextBtn.addEventListener('click', () => {
+            showSlide((current + 1) % images.length);
+        });
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => showSlide(i));
+        });
+        images.forEach((img, i) => {
+            img.onload = () => { if (i === 0) setCarouselHeight(0); };
+        });
+        showSlide(0);
+    });
+    </script>
 </head>
 <body>
     <div id="loader">
@@ -248,6 +371,31 @@
         <p>Civic Army Media Manager - This is where I started getting into web design with google sites.</p>
     </div>
      <div class="container">
+        <h3>Past Work</h3>
+        <div class="carousel">
+            <div class="carousel-track">
+                <img src="18th corps (2).png" alt="18th Corps" class="carousel-img active">
+                <img src="civic ad 3.5b.png" alt="Civic Ad 3.5b" class="carousel-img">
+                <img src="Luna Company.png" alt="Luna Company" class="carousel-img">
+                <img src="Star Wars Naboo Border - Stay in the loop.png" alt="Star Wars Naboo Border - Stay in the loop" class="carousel-img">
+                <img src="Star wars Naboo border - Why choose us.png" alt="Star Wars Naboo Border - Why choose us" class="carousel-img">
+                <img src="Cvic ad 12.b.png" alt="Cvic ad 12.b" class="carousel-img">
+                <img src="civic.png" alt="Civic" class="carousel-img">
+            </div>
+            <button class="carousel-btn prev">&#10094;</button>
+            <button class="carousel-btn next">&#10095;</button>
+            <div class="carousel-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+    </div>
+    <div class="container">
         <h3>Find Me</h3>
         <div class="socials-group">
             <div class="social-category">
